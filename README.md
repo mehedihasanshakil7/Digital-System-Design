@@ -1,6 +1,27 @@
 
 # Digital-System-Design-Lab
 
+## Master slave jk flip flop
+![jk_flip_flop](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.jpg)
+# Code 
+
+```verilog
+module jk_flip_flop(q, q_bar, j, k, clear, clk);
+	input j, k, clear, clk;
+	output q, q_bar;
+	wire a, b, c, d, y, y_bar, c_bar;
+	nand(a, q_bar, j, clk, clear);
+	nand(b, k, clk, q);
+	nand(y, a, y_bar);
+	nand(y_bar, y, clear, b);
+	not(c_bar, clk);
+	nand(c, y, c_bar);
+	nand(d, y_bar, c_bar);
+	nand(q, c, q_bar);
+	nand(q_bar, q, clear, d);
+endmodule
+```
+
 ## Mod 10 Asynchronous counter circuit
 ![Mod-10-async](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.jpg)
 # Code
