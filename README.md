@@ -192,6 +192,7 @@ endmodule
 ```
 
 ## Random sequence counter by synchronous counter (4-bit)
+### 0000->1101->1011->1001->0110->1100->0011->1111->0000
 # Code
 ```verilog
 //0000->1101->1011->1001->0110->1100->0011->1111->0000
