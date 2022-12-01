@@ -11,6 +11,7 @@
 * [Carry Look Ahead Adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/carry_look_ahead_adder.v)
 * [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
 * [Excess3 to BCD](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
+* [Gray to Binary Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.v)
 * [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
 * [Mod-10 Asynchronous Counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.v)
 * [Multiplexer (4-to-1)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mux_4_to_1.v)
