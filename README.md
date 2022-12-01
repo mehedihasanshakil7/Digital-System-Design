@@ -1,5 +1,20 @@
 
-# Digital-System-Design-Lab
+# Digital System Design with Verilog
+### Reference Books:
+* Verilog HDL - Samir Palnitkar
+* Digital Logic and Computer Design - M. Morris Mano
+
+### Contents (listed alphabetically)
+* [Adder Subtractor](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/adder_subtractor.v)
+* [BCD to Excess3](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/bcd_to_excess_3.v)
+* [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
+* [Excess3 to BCD](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
+* [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
+* [Mod-10 Asynchronous Counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.v)
+* [Multiplexer (4-to-1)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mux_4_to_1.v)
+* [Ripple Carry Counter (4-bit/Mod-16)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/ripple_carry_counter.v)
+* [Synchronous Up Down Counter (3-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/sync_up_down_counter.v)
+* [Random Sequence (4-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/random_sequence.v)
 
 ## BCD to Excess-3 code converter
 ![bcd_to_excess_3](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/bcd_to_excess_3.jpg)
@@ -191,8 +206,9 @@ module jk_flip_flop(q, q_bar, j, k, clear, clk);
 endmodule
 ```
 
-## Random sequence counter by synchronous counter (4-bit)
+## Random sequence by synchronous counter (4-bit)
 ### 0000->1101->1011->1001->0110->1100->0011->1111->0000
+#### Circuit is too complicated. Verilog implementation from boolean function of inputs
 # Code
 ```verilog
 //0000->1101->1011->1001->0110->1100->0011->1111->0000
