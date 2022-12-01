@@ -11,6 +11,7 @@
 * [Carry Look Ahead Adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/carry_look_ahead_adder.v)
 * [Decoder (3-to-8 line)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/decoder_3_to_8.v)
 * [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
+* [Encoder (8-to-3 line](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/encoder.v)
 * [Excess3 to BCD Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
 * [Gray to Binary Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.v)
 * [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
