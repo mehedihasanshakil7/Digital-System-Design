@@ -7,6 +7,7 @@
 ### Contents (listed alphabetically)
 * [Adder Subtractor](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/adder_subtractor.v)
 * [BCD to Excess3](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/bcd_to_excess_3.v)
+* [Binary to Gray Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/binary_to_gray.v)
 * [Carry Look Ahead Adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/carry_look_ahead_adder.v)
 * [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
 * [Excess3 to BCD](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
