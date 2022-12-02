@@ -13,7 +13,7 @@ endmodule
 module bcd_stimulus;
 	reg [3:0] a;
 	wire [3:0] b;
-	bcd_to_excess_3 bcd(b, a);
+	bcd_to_excess_3 bcd1(b, a);
 	initial
 	begin
 	    a = 4'b0000;
@@ -26,6 +26,6 @@ module bcd_stimulus;
 	#50 a = 4'b0111;
 	#50 a = 4'b1000;
 	#50 a = 4'b1001;
-	#50 $finish;
+	#200 $finish;
 	end
 endmodule
