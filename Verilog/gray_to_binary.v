@@ -29,6 +29,6 @@ module gray_stimulus;
     #50 b = 4'b1011;
     #50 b = 4'b1001;
     #50 b = 4'b1000;
-    #50 $finish;
+    #200 $finish;
     end
 endmodule
