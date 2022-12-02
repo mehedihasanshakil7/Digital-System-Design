@@ -36,6 +36,6 @@ module multiplier_stimulus;
     #50 a = 2'b11; b = 2'b01;
     #50 a = 2'b11; b = 2'b10;
     #50 a = 2'b11; b = 2'b11;
-    #50 $finish;
+    #200 $finish;
     end
 endmodule
