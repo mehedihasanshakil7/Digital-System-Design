@@ -31,6 +31,6 @@ module cla_stimulus;
 	#50 a = 4'b0011; b = 4'b0011;
 	#50 a = 4'b0011; b = 4'b0011; cin = 1'b1;
 	#50 a = 4'b1010; b = 4'b0101;
-	#50 $finish;
+	#200 $finish;
 	end
 endmodule
