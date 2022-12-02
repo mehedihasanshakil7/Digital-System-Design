@@ -29,6 +29,6 @@ module binary_stimulus;
     #50 b = 4'b1101;
     #50 b = 4'b1110;
     #50 b = 4'b1111;
-    #50 $finish;
+    #200 $finish;
     end
 endmodule
