@@ -29,7 +29,7 @@ module decoder_stimulus;
     #50 a = 3'b110;
     #50 a = 3'b111;
     #50 a = 3'b111; en = 1'b0;
-    #50 $finish;
+    #200 $finish;
     end
 endmodule
     
