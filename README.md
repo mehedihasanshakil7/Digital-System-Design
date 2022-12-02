@@ -11,7 +11,7 @@
 * [Carry Look Ahead Adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/carry_look_ahead_adder.v)
 * [Decoder (3-to-8 line)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/decoder_3_to_8.v)
 * [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
-* [Encoder (8-to-3 line](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/encoder.v)
+* [Encoder (8-to-3 line)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/encoder.v)
 * [Excess3 to BCD Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
 * [Full Adder (using half adder)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/full_adder.v)
 * [Gray to Binary Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.v)
@@ -26,7 +26,41 @@
 * [Synchronous Up Down Counter (3-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/sync_up_down_counter.v)
 * [Random Sequence (4-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/random_sequence.v)
 
-## BCD to Excess-3 code converter
+## Adder Subtractor (4-bit)
+![adder_subtractor](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/adder_subtractor.jpg)
+# Code
+
+```verilog
+module adder_subtractor(s, cout, a, b, mode);
+    input [3:0] a, b;
+    input mode;
+    output [3:0] s;
+    output cout;
+    wire c0, c1, c2;
+    full_adder fa1(s[0], c0, a[0], (b[0]^mode), mode);
+    full_adder fa2(s[1], c1, a[1], (b[1]^mode), c0);
+    full_adder fa3(s[2], c2, a[2], (b[2]^mode), c1);
+    full_adder fa4(s[3], cout, a[3], (b[3]^mode), c2);
+endmodule
+
+module full_adder(s, cout, a, b, cin);
+    input a, b, cin;
+    output s, cout;
+    wire p, q, r;
+    half_adder ha1(p, q, a, b);
+    half_adder ha2(s, r, p, cin);
+    or(cout, q, r);
+endmodule
+
+module half_adder(s, cout, a, b);
+    input a, b;
+    output s, cout;
+    xor(s, a, b);
+    and(cout, a, b);
+endmodule
+```
+
+## BCD to Excess-3 Code Converter
 ![bcd_to_excess_3](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/bcd_to_excess_3.jpg)
 # Code
 
@@ -64,7 +98,195 @@ module bcd_stimulus;
 endmodule
 ```
 
-## Excess-3 to  BCD code converter
+## Binary to Gray Code Converter
+![binary_to_gray](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/binary_to_gray.jpg)
+# Code
+
+```verilog
+module binary_to_gray(g, b);
+	input [3:0] b;
+	output [3:0] g;
+	assign g[3] = b[3];
+	xor(g[2], b[3], b[2]);
+	xor(g[1], b[2], b[1]);
+	xor(g[0], b[1], b[0]);
+endmodule
+
+module binary_stimulus;
+    reg [3:0] b;
+    wire [3:0] g;
+    binary_to_gray b1(g, b);
+    initial
+    begin
+        b = 4'b0000;
+    #50 b = 4'b0001;
+    #50 b = 4'b0010;
+    #50 b = 4'b0011;
+    #50 b = 4'b0100;
+    #50 b = 4'b0101;
+    #50 b = 4'b0110;
+    #50 b = 4'b0111;
+    #50 b = 4'b1000;
+    #50 b = 4'b1001;
+    #50 b = 4'b1010;
+    #50 b = 4'b1011;
+    #50 b = 4'b1100;
+    #50 b = 4'b1101;
+    #50 b = 4'b1110;
+    #50 b = 4'b1111;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Carry Look Ahead Adder
+![cla](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/carry_look_ahead_adder.jpg)
+# Code
+
+```verilog
+module carry_look_ahead_adder(s, cout, a, b, cin);
+    input [3:0] a, b;
+    input cin;
+    output [3:0] s;
+    output cout;
+    wire [3:0] p, g, c;
+    assign p = a ^ b;
+    assign g = a & b;
+    assign c[0] = cin;
+    assign c[1] = g[0] | (p[0] & c[0]);
+    assign c[2] = g[1] | (p[1] & g[0]) | (p[1] & p[0] & c[0]);
+    assign c[3] = g[2] | (p[2] & g[1]) | (p[2] & p[1] & g[0]) | (p[2] & p[1] & p[0] & c[0]);
+    assign cout = g[3] | (p[3] & g[2]) | (p[3] & p[2] & g[1]) | (p[3] & p[2] & p[1] & g[0]) | (p[3] & p[2] & p[1] & p[0] & c[0]);
+    assign s = p ^ c;
+endmodule
+
+module cla_stimulus;
+	reg [3:0] a, b;
+	reg cin;
+	wire [3:0] s;
+	wire cout;
+	carry_look_ahead_adder cla1(s, cout, a, b, cin);
+	initial
+	begin
+	    a = 4'b0000; b = 4'b0000; cin = 1'b0;
+	#50 a = 4'b0001; b = 4'b0001;
+	#50 a = 4'b0001; b = 4'b0001; cin = 1'b1;
+	#50 a = 4'b1010; b = 4'b0101; cin = 1'b0;
+	#50 a = 4'b0111; b = 4'b0101;
+	#50 a = 4'b1000; b = 4'b1001;
+	#50 a = 4'b0011; b = 4'b0011;
+	#50 a = 4'b0011; b = 4'b0011; cin = 1'b1;
+	#50 a = 4'b1010; b = 4'b0101;
+	#200 $finish;
+	end
+endmodule
+```
+## Decoder (3-to-8 line)
+![decoder_3_to_8](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/decoder_3_to_8.jpg)
+# Code
+
+```verilog
+module decoder_3_to_8(d, a, en);
+    input [2:0] a;
+    input en; //To enable circuit
+    output [7:0] d;
+    and(d[0], ~a[0], ~a[1], ~a[2], en);
+    and(d[1], a[0], ~a[1], ~a[2], en);
+    and(d[2], ~a[0], a[1], ~a[2], en);
+    and(d[3], a[0], a[1], ~a[2], en);
+    and(d[4], ~a[0], ~a[1], a[2], en);
+    and(d[5], a[0], ~a[1], a[2], en);
+    and(d[6], ~a[0], a[1], a[2], en);
+    and(d[7], a[0], a[1], a[2], en);
+endmodule
+
+module decoder_stimulus;
+    reg en;
+    reg [2:0] a;
+    wire [7:0] d;
+    decoder_3_to_8 d1(d, a, en);
+    initial
+    begin
+    a = 3'b110; en = 1'b0;
+    #50 a = 3'b000; en = 1'b1;
+    #50 a = 3'b001;
+    #50 a = 3'b010;
+    #50 a = 3'b011;
+    #50 a = 3'b100;
+    #50 a = 3'b101;
+    #50 a = 3'b110;
+    #50 a = 3'b111;
+    #50 a = 3'b111; en = 1'b0;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Demultiplexer (1-to-4)
+![demux_1_to_4](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.jpg)
+# Code
+
+```verilog
+module demux_1_to_4(d, x, s);
+    input x;
+    input [1:0] s;
+    output [3:0] d;
+    and(d[0], x, ~s[0], ~s[1]);
+    and(d[1], x, ~s[1], s[0]);
+    and(d[2], x, s[1], ~s[0]);
+    and(d[3], x, s[1], s[0]);
+endmodule
+
+module demux_stimulus;
+    reg x;
+    reg [1:0] s;
+    wire [3:0] d
+    demux_1_to_4 d1(d, x, s);
+    initial
+    begin
+    x = 1'b0;
+    #50 x = 1'b1; s = 2'b00;
+    #50 s = 2'b01;
+    #50 s = 2'b10;
+    #50 s = 2'b11;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Encoder (8-to-3 line)
+![encoder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/encoder.jpg)
+# Code
+
+```verilog
+module encoder(y, x);
+    input [7:0] x;
+    output [2:0] y;
+    or(y[0], x[1], x[3], x[5], x[7]);
+    or(y[1], x[2], x[3], x[6], x[7]);
+    or(y[2], x[4], x[5], x[6], x[7]);
+endmodule
+
+module encoder_stimulus;
+    reg [7:0] x;
+    wire [2:0] y;
+    encoder en1(y, x);
+    initial
+    begin
+         x = a'b00000001;
+    #100 x = 8'b00000010;
+    #100 x = 8'b00000100;
+    #100 x = 8'b00001000;
+    #100 x = 8'b00010000;
+    #100 x = 8'b00100000;
+    #100 x = 8'b01000000;
+    #100 x = 8'b10000000;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Excess-3 to  BCD Code Converter
 ![excess3_to_bcd](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.jpg)
 # Code
 
@@ -99,7 +321,97 @@ module excess3_stimulus;
 endmodule
 ```
 
-## Master slave jk flip flop
+## Full Adder (using half adder)
+![full_adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/full_adder.jpg)
+# Code
+
+```verilog
+module full_adder(s, cout, a, b, cin);
+    input a, b, cin;
+    output s, cout;
+    wire p, q, r;
+    half_adder ha1(p, q, a, b);
+    half_adder ha2(s, r, p, cin);
+    or(cout, q, r);
+endmodule
+
+module half_adder(s, cout, a, b);
+    input a, b;
+    output s, cout;
+    xor(s, a, b);
+    and(cout, a, b);
+endmodule
+```
+
+## Gray to Binary Code Converter
+![gray_to_binary](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.jpg)
+# Code
+
+```verilog
+module gray_to_binary(g, b);
+	input [3:0] b;
+	output [3:0] g;
+	assign g[3] = b[3];
+	xor(g[2], g[3], b[2]);
+	xor(g[1], g[2], b[1]);
+	xor(g[0], g[1], b[0]);
+endmodule
+
+module gray_stimulus;
+    reg [3:0] b;
+    wire [3:0] g;
+    gray_to_binary b1(g, b);
+    initial
+    begin
+        b = 4'b0000;
+    #50 b = 4'b0001;
+    #50 b = 4'b0011;
+    #50 b = 4'b0010;
+    #50 b = 4'b0110;
+    #50 b = 4'b0111;
+    #50 b = 4'b0101;
+    #50 b = 4'b0100;
+    #50 b = 4'b1100;
+    #50 b = 4'b1101;
+    #50 b = 4'b1111;
+    #50 b = 4'b1110;
+    #50 b = 4'b1010;
+    #50 b = 4'b1011;
+    #50 b = 4'b1001;
+    #50 b = 4'b1000;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Half Adder
+![half_adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/half_adder.jpg)
+# Code
+
+```verilog
+module half_adder(s, c, a, b);
+    input a, b;
+    output s, c;
+    xor(s, a, b);
+    and(c, a, b);
+endmodule
+
+module half_adder_stimulus;
+    reg a, b;
+    wire s, c;
+    half_adder ha1(s, c, a, b);
+    initial
+    begin
+    a = 1'b0; b = 1'b0;
+    #50 b = 1'b1;
+    #50 a = 1'b1; b = 1'b0;
+    #50 b = 1'b1;
+    #200 $finish;
+    end
+endmodule
+```
+
+## JK Flip Flop (master slave)
 ![jk_flip_flop](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.jpg)
 # Code 
 
@@ -120,38 +432,48 @@ module jk_flip_flop(q, q_bar, j, k, clear, clk);
 endmodule
 ```
 
-## 4-bit ripple carry counter
-![ripple_carry_counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/ripple_carry_counter.jpg)
+## Magnitude Comparator (2-bit)
+![magnitude_comparator](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/magnitude_comparator.jpg)
 # Code
 
 ```verilog
-module ripple_carry_counter(q, clear, clk);
-	input clk, clear;
-	output [3:0] q;
-	jk_flip_flop jk1(q[0], , 1, 1, clear, clk);
-	jk_flip_flop jk2(q[1], , 1, 1, clear, q[0]);
-	jk_flip_flop jk3(q[2], , 1, 1, clear, q[1]);
-	jk_flip_flop jk4(q[3], , 1, 1, clear, q[2]);
+module magnitude_comparator(g, e, s, a, b);
+    input [1:0] a, b;
+    output g, e, s; // g = (A>B), e = (A=B), s = (A<B)
+    or(g, (a[1] & ~b[1]), (a[1] & a[0] & ~b[0]), (a[0] & ~b[1] & ~b[0]));
+    and(e, ~(a[1] ^ b[1]), ~(a[0] ^ b[0]));
+    or(s, (~a[1] & b[1]), (~a[1] & ~a[0] & b[0]), (~a[0] & b[1] & b[0]));
 endmodule
 
-module jk_flip_flop(q, q_bar, j, k, clear, clk);
-	input j, k, clear, clk;
-	output q, q_bar;
-	wire a, b, c, d, y, y_bar, c_bar;
-	nand(a, q_bar, j, clk, clear);
-	nand(b, k, clk, q);
-	nand(y, a, y_bar);
-	nand(y_bar, y, clear, b);
-	not(c_bar, clk);
-	nand(c, y, c_bar);
-	nand(d, y_bar, c_bar);
-	nand(q, c, q_bar);
-	nand(q_bar, q, clear, d);
+module comparator_stimulus;
+    reg [1:0] a, b;
+    wire g, e, s;
+    magnitude_comparator m1(g, e, s, a, b);
+    initial
+    begin
+    a = 2'b00; b = 2'b00;
+    #50 a = 2'b00; b = 2'b01;
+    #50 a = 2'b00; b = 2'b10;
+    #50 a = 2'b00; b = 2'b11;
+    #50 a = 2'b01; b = 2'b00;
+    #50 a = 2'b01; b = 2'b01;
+    #50 a = 2'b01; b = 2'b10;
+    #50 a = 2'b01; b = 2'b11;
+    #50 a = 2'b10; b = 2'b00;
+    #50 a = 2'b10; b = 2'b01;
+    #50 a = 2'b10; b = 2'b10;
+    #50 a = 2'b10; b = 2'b11;
+    #50 a = 2'b11; b = 2'b00;
+    #50 a = 2'b11; b = 2'b01;
+    #50 a = 2'b11; b = 2'b10;
+    #50 a = 2'b11; b = 2'b11;
+    #200 $finish;
+    end
 endmodule
 ```
 
-## Mod 10 Asynchronous counter circuit
-![Mod-10-async](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.jpg)
+## Mod-10 Asynchronous Counter
+![mod-10-async-counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.jpg)
 # Code
 
 ```verilog
@@ -182,7 +504,143 @@ module jk_flip_flop(q, q_bar, j, k, clear, clk);
 endmodule
 ```
 
-## 3-bit synchronous up/down counter
+## Mod-10 Synchronous Counter
+![mod-10-sync-counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_synchronous_counter.jpg)
+# Code
+
+```verilog
+module mod_10_synchronous_counter(q, clear, clk);
+    input clear, clk;
+    output [3:0] q;
+    wire a, b, c, d, e;
+    jk_flip_flop jk1(q[0],,1,1,clear,clk);
+    and(a, ~q[3], q[0]);
+    jk_flip_flop jk2(q[1],,a,a,clear,clk);
+    and(b, q[1], q[0]);
+    jk_flip_flop jk3(q[2],,b,b,clear,clk);
+    and(c, q[0], q[3]);
+    and(d, q[2], b);
+    or(e, c, d);
+    jk_flip_flop jk4(q[3],,e,e,clear,clk);
+endmodule
+
+module jk_flip_flop(q, q_bar, j, k, clear, clk);
+	input j, k, clear, clk;
+	output q, q_bar;
+	wire a, b, c, d, y, y_bar, c_bar;
+	nand(a, q_bar, j, clk, clear);
+	nand(b, k, clk, q);
+	nand(y, a, y_bar);
+	nand(y_bar, y, clear, b);
+	not(c_bar, clk);
+	nand(c, y, c_bar);
+	nand(d, y_bar, c_bar);
+	nand(q, c, q_bar);
+	nand(q_bar, q, clear, d);
+endmodule
+```
+
+## Multiplexer (4-to-1 line)
+![mux_4_to_1](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mux_4_to_1.jpg)
+# Code
+
+```verilog
+module mux_4_to_1(out, i0, i1, i2, i3, s1, s0);
+    output out;
+    input i0, i1, i2, i3, s1, s0;
+    wire s1_bar, s0_bar, a, b, c, d;
+    
+    not(s1_bar, s1);
+    not(s0_bar, s0);
+    
+    and(a, i0, s1_bar, s0_bar);
+    and(b, i1, s1_bar, s0);
+    and(c, i2, s1, s0_bar);
+    and(d, i3, s1, s0);
+    
+    or(out, a, b, c, d);
+endmodule
+```
+
+## Multiplier (2-bit by 2-bit)
+![multiplier](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/multiplier_2x2.jpg)
+# Code
+
+```verilog
+module multiplier_2x2(p, a, b);
+	input [1:0] a, b; //b is multiplicand and a is multiplier
+	output [3:0] p;
+	wire c1;
+	assign p[0] = a[0] & b[0];
+	half_adder ha1(p[1], c1, a[0]&b[1], a[1]&b[0]);
+	half_adder ha2(p[2], p[3], c1, a[1]&b[1]);
+endmodule
+
+module half_adder(s, c, a, b);
+	input a, b;
+	output s,c;
+	assign s = a ^ b;
+	assign c = a & b;
+endmodule
+
+module multiplier_stimulus;
+    reg [1:0] a, b;
+    wire [3:0] p;
+    multiplier_2x2 m1(p, a, b);
+    initial
+    begin
+        a = 2'b00; b = 2'b00;
+    #50 a = 2'b00; b = 2'b01;
+    #50 a = 2'b00; b = 2'b10;
+    #50 a = 2'b00; b = 2'b11;
+    #50 a = 2'b01; b = 2'b00;
+    #50 a = 2'b01; b = 2'b01;
+    #50 a = 2'b01; b = 2'b10;
+    #50 a = 2'b01; b = 2'b11;
+    #50 a = 2'b10; b = 2'b00;
+    #50 a = 2'b10; b = 2'b01;
+    #50 a = 2'b10; b = 2'b10;
+    #50 a = 2'b10; b = 2'b11;
+    #50 a = 2'b11; b = 2'b00;
+    #50 a = 2'b11; b = 2'b01;
+    #50 a = 2'b11; b = 2'b10;
+    #50 a = 2'b11; b = 2'b11;
+    #200 $finish;
+    end
+endmodule
+```
+
+## Ripple Carry Counter (4-bit)
+![ripple_carry_counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/ripple_carry_counter.jpg)
+# Code
+
+```verilog
+module ripple_carry_counter(q, clear, clk);
+	input clk, clear;
+	output [3:0] q;
+	jk_flip_flop jk1(q[0], , 1, 1, clear, clk);
+	jk_flip_flop jk2(q[1], , 1, 1, clear, q[0]);
+	jk_flip_flop jk3(q[2], , 1, 1, clear, q[1]);
+	jk_flip_flop jk4(q[3], , 1, 1, clear, q[2]);
+endmodule
+
+module jk_flip_flop(q, q_bar, j, k, clear, clk);
+	input j, k, clear, clk;
+	output q, q_bar;
+	wire a, b, c, d, y, y_bar, c_bar;
+	nand(a, q_bar, j, clk, clear);
+	nand(b, k, clk, q);
+	nand(y, a, y_bar);
+	nand(y_bar, y, clear, b);
+	not(c_bar, clk);
+	nand(c, y, c_bar);
+	nand(d, y_bar, c_bar);
+	nand(q, c, q_bar);
+	nand(q_bar, q, clear, d);
+endmodule
+```
+
+## Synchronous Up Down Counter (3-bit)
 ![sync_up_down_counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/sync_up_down_counter.jpg)
 # Code
 
@@ -216,7 +674,7 @@ module jk_flip_flop(q, q_bar, j, k, clear, clk);
 endmodule
 ```
 
-## Random sequence by synchronous counter (4-bit)
+## Random Sequence by Synchronous Counter (4-bit)
 ### 0000->1101->1011->1001->0110->1100->0011->1111->0000
 #### Circuit is too complicated. Verilog implementation from boolean function of inputs
 # Code
@@ -244,80 +702,5 @@ module jk_flip_flop(q, q_bar, j, k, clear, clk);
 	nand(d, y_bar, c_bar);
 	nand(q, c, q_bar);
 	nand(q_bar, q, clear, d);
-endmodule
-```
-
-## 4-bit binary adder subtractor
-![adder_subtractor](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/adder_subtractor.jpg)
-# Code
-
-```verilog
-module adder_subtractor(s, cout, a, b, mode);
-    input [3:0] a, b;
-    input mode;
-    output [3:0] s;
-    output cout;
-    wire c0, c1, c2;
-    full_adder fa1(s[0], c0, a[0], (b[0]^mode), mode);
-    full_adder fa2(s[1], c1, a[1], (b[1]^mode), c0);
-    full_adder fa3(s[2], c2, a[2], (b[2]^mode), c1);
-    full_adder fa4(s[3], cout, a[3], (b[3]^mode), c2);
-endmodule
-
-module full_adder(s, cout, a, b, cin);
-    input a, b, cin;
-    output s, cout;
-    wire p, q, r;
-    half_adder ha1(p, q, a, b);
-    half_adder ha2(s, r, p, cin);
-    or(cout, q, r);
-endmodule
-
-module half_adder(s, cout, a, b);
-    input a, b;
-    output s, cout;
-    xor(s, a, b);
-    and(cout, a, b);
-endmodule
-```
-
-## 4-to-1 multiplexer
-![mux_4_to_1](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mux_4_to_1.jpg)
-# Code
-
-```verilog
-module mux_4_to_1(out, i0, i1, i2, i3, s1, s0);
-    output out;
-    input i0, i1, i2, i3, s1, s0;
-    wire s1_bar, s0_bar, a, b, c, d;
-    
-    not(s1_bar, s1);
-    not(s0_bar, s0);
-    
-    and(a, i0, s1_bar, s0_bar);
-    and(b, i1, s1_bar, s0);
-    and(c, i2, s1, s0_bar);
-    and(d, i3, s1, s0);
-    
-    or(out, a, b, c, d);
-endmodule
-```
-
-## 1-to-4 demultiplexer
-![demux_1_to_4](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.jpg)
-# Code
-
-```verilog
-module demux_1_to_4(d, x, s);
-	input x;
-	input [1:0] s;
-	output [3:0] d;
-	wire s1_bar, s0_bar;
-	not(s0_bar, s[0]);
-	not(s1_bar, s[1]);
-	and(d[0], x, s0_bar, s1_bar);
-	and(d[1], x, s[0], s1_bar);
-	and(d[2], x, s0_bar, s[1]);
-	and(d[3], x, s[0], s[1]);
 endmodule
 ```
