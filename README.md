@@ -17,6 +17,7 @@
 * [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
 * [Magnitude Comparator (2-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/magnitude_comparator.v)
 * [Mod-10 Asynchronous Counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.v)
+* [Mod-10 Synchronous Counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_synchronous_counter.v)
 * [Multiplexer (4-to-1)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mux_4_to_1.v)
 * [Multiplier (2-bit by 2-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/multiplier_2x2.v)
 * [Ripple Carry Counter (4-bit/Mod-16)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/ripple_carry_counter.v)
