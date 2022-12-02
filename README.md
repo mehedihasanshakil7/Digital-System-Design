@@ -15,6 +15,7 @@
 * [Excess3 to BCD Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
 * [Full Adder (using half adder)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/full_adder.v)
 * [Gray to Binary Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.v)
+* [Half Adder](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/half_adder.v)
 * [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
 * [Magnitude Comparator (2-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/magnitude_comparator.v)
 * [Mod-10 Asynchronous Counter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/mod_10_async_counter.v)
