@@ -545,20 +545,35 @@ endmodule
 # Code
 
 ```verilog
-module mux_4_to_1(out, i0, i1, i2, i3, s1, s0);
-    output out;
-    input i0, i1, i2, i3, s1, s0;
-    wire s1_bar, s0_bar, a, b, c, d;
-    
-    not(s1_bar, s1);
-    not(s0_bar, s0);
-    
-    and(a, i0, s1_bar, s0_bar);
-    and(b, i1, s1_bar, s0);
-    and(c, i2, s1, s0_bar);
-    and(d, i3, s1, s0);
-    
-    or(out, a, b, c, d);
+module mux_4_to_1(f, i, s);
+    input [3:0] i;
+    input [1:0] s;
+    output f;
+    wire a, b, c, d;
+    and(a, i[0], ~s[1], ~s[0]);
+    and(b, i[1], ~s[1], s[0]);
+    and(c, i[2], s[1], ~s[0]);
+    and(d, i[3], s[1], s[0]);
+    or(f, a, b, c, d);
+endmodule
+
+module mux_stimulus;
+    reg [3:0] i;
+    reg [1:0] s;
+    wire f;
+    mux_4_to_1 m1(f, i, s);
+    initial
+    begin
+    i = 4'b1110; s = 2'b00;
+    #50 i = 4'b1001;
+    #50 i = 4'b0101; s = 2'b01;
+    #50 i = 4'b0010;
+    #50 i = 4'b1011; s = 2'b10;
+    #50 i = 4'b0100;
+    #50 i = 4'b0111; s = 2'b11;
+    #50 i = 4'b1000;
+    #200 $finish;
+    end
 endmodule
 ```
 
