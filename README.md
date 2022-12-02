@@ -13,6 +13,7 @@
 * [Demultiplexer (1-to-4)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/demux_1_to_4.v)
 * [Encoder (8-to-3 line](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/encoder.v)
 * [Excess3 to BCD Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/excess_3_to_bcd.v)
+* [Full Adder (using half adder)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/full_adder.v)
 * [Gray to Binary Code Converter](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/gray_to_binary.v)
 * [JK Flip Flop (master slave)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/jk_flip_flop.v)
 * [Magnitude Comparator (2-bit)](https://github.com/mehedihasanshakil7/Digital-System-Design/blob/main/Verilog/magnitude_comparator.v)
