@@ -12,7 +12,7 @@ module encoder_stimulus;
     encoder en1(y, x);
     initial
     begin
-         x = a'b00000001;
+         x = 8'b00000001;
     #100 x = 8'b00000010;
     #100 x = 8'b00000100;
     #100 x = 8'b00001000;
